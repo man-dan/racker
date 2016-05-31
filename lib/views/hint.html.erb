@@ -1,0 +1,8 @@
+<%if  @game.hints >0 %>
+  <form class="hint" method="POST" action="/hints">
+     <p>Need help? You can recive  one hint
+      <input  class="btn_hint" type="submit" value="HINT"></p>
+  </form>
+<% else %>
+    <p> One number from secret code = '<%= hint %>'</p>
+<% end %>

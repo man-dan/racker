@@ -39,7 +39,7 @@ class Racker
         response.redirect('/')
     end
   end
-  
+
   def win
    return true if guess== @game.secret_code
   end
