@@ -17,6 +17,7 @@ class Racker
     when "/replay" then replay
     when '/check' then check 
     when '/hints' then hints
+    when '/save'  then save
     else Rack::Response.new("Not Found", 404)
     end
   end
@@ -27,6 +28,7 @@ class Racker
     Rack::Response.new do |response|
       @request.session[:guess] = ''
       @request.session[:mark] = ''
+      @request.session[:name] = ''
       @request.session[:hint] = ''
       response.redirect("/")
     end
@@ -40,6 +42,21 @@ class Racker
     end
   end
 
+  def hints
+    Rack::Response.new do |response|
+      @request.session[:hint] = @game.hint
+      response.redirect("/")
+    end    
+  end
+
+  def save
+    Rack::Response.new do |response|
+        @request.session[:name] = @request.params['name']
+        @game.save_game(name)
+        response.redirect('/')
+    end
+  end
+  
   def win
    return true if guess== @game.secret_code
   end
@@ -47,6 +64,10 @@ class Racker
   def lose
     return true if @game.turns == 0
   end  
+
+  def name
+    @request.session[:name]
+  end
 
   def game
     @request.session[:game] ||= Codebreaker::Game.new
@@ -57,18 +78,12 @@ class Racker
   end
 
   def guess
-    @request.session["guess"]
+    @request.session[:guess]
   end
 
-  def hints
-    Rack::Response.new do |response|
-      @request.session[:hint] = @game.hint
-      response.redirect("/")
-    end    
-  end
-
+  
   def hint
-    @request.session["hint"]
+    @request.session[:hint]
   end
 
   def render(template)

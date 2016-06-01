@@ -29,6 +29,12 @@ module Codebreaker
       @hints -=1
       @secret_code.chars.sample
     end
+
+    def save_game(name)
+      f = File.open("./db/records.txt","a+")
+      f<<"name:#{name}-turns:#{10-@turns}-hints:#{1-@hints}\n"
+      f.close
+    end
   end
 end
 

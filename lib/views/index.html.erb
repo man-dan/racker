@@ -8,11 +8,17 @@
   <body>  
   <h1>This is Codebreaker!</h1>
   <% if win==true %>
-    <h2>You win this one, congratulate you!</h2> 
+    <h2>You win this one, congratulate you!</h2>
+    <% if name.empty? %>
+        <form method="POST" action="/save">
+          <input type="text" name="name" maxlength="50" placeholder="Enter your name">
+          <input  type="submit" value="SAVE">
+          </form>
+    <% end %>
   <% elsif lose == true %>
     <h2>You lose=( the secret code was: <%= @game.secret_code %></h2>
   <% else %>
-    <div id="pod_header"> <h4>You have <%= @game.turns %> attempts. Enter 4 numbers from 1 to 6</h4></div>
+    <div id="pod_header"> <h4>You have <%= @game.turns %> attempts. Enter 4 numbers from 1 to 6</h4></div> 
     <%= render("hint.html.erb") %>
     <form method="POST" action="/check">
       <input type="text" name="guess" maxlength="4" placeholder="Enter guess">
