@@ -1,17 +1,53 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>WEB page</title>
-    <link rel="stylesheet" href="/stylesheets/application.css" type="text/css">
-  </head>
-  <body>
-    <div id="container">
-      <h1>You said '<%= word %>'</h1>
-      <p>Say somthing new</p>
-      <form method="post" action="/update_word">
-        <input name="word" type="text">
-        <input type="submit" value="Say!">
-      </form>
-    </div>
+<head>
+<meta charset="utf-8">
+<title>Codebreaker</title> 
+<link rel="stylesheet" href="/stylesheets/application.css" type="text/css"> 
+</head>
+  <body>  
+  <h1>This is Codebreaker!</h1>
+  <% if win==true %>
+    <h2>You win this one, congratulate you!</h2>
+    <% if name.empty? %>
+        <form method="POST" action="/save">
+          <input type="text" name="name" maxlength="50" placeholder="Enter your name">
+          <input  type="submit" value="SAVE">
+          </form>
+    <% end %>
+  <% elsif lose == true %>
+    <h2>You lose=( the secret code was: <%= @game.secret_code %></h2>
+  <% else %>
+    <div id="pod_header"> <h4>You have <%= @game.turns %> attempts. Enter 4 numbers from 1 to 6</h4></div> 
+    <%= render("hint.html.erb") %>
+    <form method="POST" action="/check">
+      <input type="text" name="guess" maxlength="4" placeholder="Enter guess">
+      <input  type="submit" value="CHECK">
+    </form>
+  <% end %>
+
+  <div id="marks"><center><strong>Marks:</strong></center>
+   <hr>
+   <ul>
+     <li>+ your 1 number guessed in right position</li>
+     <li>- number guessed but incorect position</li>
+     <li>empty if unguessed number</li>
+   </ul>
+   <hr><center><h1><%= mark %></h1></center></div>   
+  
+  <form method="POST" action="/replay">
+    <p> If you want to replay press button: 
+    <input class="btn" type="submit" value="YES"></p>
+  </form>
+   <% if rec==true %>
+    <div id="marks"><center><strong>Records:</strong></center>
+    <center><div id="size_rec"><%= render("records.erb") %></div></center></div>  
+  <% else %>
+    <form method="POST" action="/records">
+      <p> If you want to see records press: 
+      <input type="submit" value="RECORDS"></p>
+    </form>
+  <% end %>
+   
   </body>
 </html>

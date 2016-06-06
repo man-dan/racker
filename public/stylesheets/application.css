@@ -1,16 +1,19 @@
 body {
-  background-color: #4B7399;
   font-family: Verdana;
   font-size: 14px;
+  margin-left:40%;
 }
-#container {
-  width: 75%;
-  margin: 0 auto;
-  background-color: #FFF;
-  padding: 20px 40px;
-  border: solid 1px black;
-  margin-top: 20px;
+
+
+#pod_header{
+  margin-left: -5%;
 }
-a {
-  color: #0000FF;
+
+#marks{
+  width: 400px;
+  margin-top: 3%;
+}
+
+#size_rec{
+  width: 200px;
 }
