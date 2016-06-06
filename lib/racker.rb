@@ -17,6 +17,7 @@ class Racker
     when "/replay" then replay
     when '/check' then check 
     when '/hints' then hints
+    when '/records' then records
     when '/save'  then save
     else Rack::Response.new("Not Found", 404)
     end
@@ -30,6 +31,7 @@ class Racker
       @request.session[:mark] = ''
       @request.session[:name] = ''
       @request.session[:hint] = ''
+      @request.session[:rec] = ''
       response.redirect("/")
     end
   end
@@ -56,7 +58,14 @@ class Racker
         response.redirect('/')
     end
   end
-  
+
+  def records
+    Rack::Response.new do |response|
+      @request.session[:rec] = true
+      response.redirect("/")
+    end    
+  end
+
   def win
    return true if guess== @game.secret_code
   end
@@ -79,6 +88,10 @@ class Racker
 
   def guess
     @request.session[:guess]
+  end
+
+  def rec
+    @request.session[:rec]
   end
 
   

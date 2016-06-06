@@ -11,14 +11,14 @@ module Codebreaker
     def check(guess)
       mark = ''
       @turns -=1
+      return '++++' if guess == @secret_code
       codes = @secret_code.chars.zip(guess.to_s.chars)
-      mark<< '+' * codes.select {|x,y| x==y }.count
-      minus = codes.delete_if {|x,y| x==y }.transpose
-      return mark if minus.empty?
-      minus[0].each do |secret| 
-        unless (one_guess=minus[1].index(secret)).nil?
+      minus = codes.delete_if {|x,y| x==y }
+      mark<< '+' * (4-minus.count)
+      minus.transpose[0].each do |secret| 
+        unless (one_guess=minus.transpose[1].index(secret)).nil?
             mark<<'-'
-            minus[1].delete_at(one_guess)
+            minus.transpose[1].delete_at(one_guess)
         end
       end
       mark
@@ -31,7 +31,7 @@ module Codebreaker
     end
 
     def save_game(name)
-      f = File.open("./db/records.txt","a+")
+      f = File.open("./lib/views/records.erb","a+")
       f<<"name:#{name}-turns:#{10-@turns}-hints:#{1-@hints}\n"
       f.close
     end

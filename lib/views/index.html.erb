@@ -39,5 +39,15 @@
     <p> If you want to replay press button: 
     <input class="btn" type="submit" value="YES"></p>
   </form>
+   <% if rec==true %>
+    <div id="marks"><center><strong>Records:</strong></center>
+    <center><div id="size_rec"><%= render("records.erb") %></div></center></div>  
+  <% else %>
+    <form method="POST" action="/records">
+      <p> If you want to see records press: 
+      <input type="submit" value="RECORDS"></p>
+    </form>
+  <% end %>
+   
   </body>
 </html>
